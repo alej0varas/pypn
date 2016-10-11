@@ -1,0 +1,8 @@
+/.env
+/README.html
+/__pycache__/
+/cert.pem
+/pypn.egg-info/
+*~
+/dist/
+/build/
