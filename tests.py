@@ -8,6 +8,7 @@ the_id = 'an:id'
 second_id = 'other:id'
 ids = the_id, second_id
 payload = {
+    'title': "Hello",
     'body': "Hello World!",  # APNs alert or alert.body, GCM body
     'apns_sound': "default",
     'apns_badge': 1,
@@ -83,6 +84,22 @@ class GCMTests(unittest.TestCase):
         self.assertEqual(mock_request.call_args[1]['topic'], topic)
         self.assertIn('data', mock_request.call_args[1])
         self.assertIn('notification', mock_request.call_args[1])
+
+
+@unittest.mock.patch('onesignal.OneSignal.create_notification')
+class OneSignalTests(unittest.TestCase):
+    def test_send(self, mock_request):
+
+        sin = pypn.Notification(pypn.OS)
+
+        sin.send(the_id, payload)
+
+        self.assertTrue(mock_request.called)
+        self.assertIn('player_ids', mock_request.call_args[1])
+        self.assertEqual(mock_request.call_args[1]['player_ids'], the_id)
+        self.assertEqual(payload['body'], mock_request.call_args[0][0])
+        self.assertIn('heading', mock_request.call_args[1])
+        self.assertEqual(mock_request.call_args[1]['heading'], payload['title'])
 
 
 if __name__ == '__main__':

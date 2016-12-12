@@ -6,6 +6,7 @@ import pypn
 token = os.environ.get('TESTING_GCM_TOKEN')
 token_bad = 'bad-token'
 topic = 'global'
+player_ids = [os.environ.get('TESTING_OS_PLAYER_IDS')]
 
 data = {
     "body": "Hello world!",
@@ -38,7 +39,11 @@ response = apns.send(token, data)
 print(response.status_code)
 print(response.reason)
 
-#import pdb; pdb.set_trace()
+onesignal = pypn.Notification(pypn.OS)
+
+result = onesignal.send(player_ids, data)
+
+# import pdb; pdb.set_trace()
 
 
 # apns.send([token_bad, token], data)

@@ -3,11 +3,13 @@ import re
 
 import apns2
 import gcm
+import onesignal
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 APNS = 'apns'
 GCM = 'gcm'
+OS = 'onesignal'
 
 four_weeks_in_seconds = 40320  # 60 * 60 * 24 * 7 * 4
 
@@ -67,9 +69,27 @@ class GCMProvider:
             result = self.client.send_to_message(to=to, **notification)
         return result
 
+
+class OneSignalProvider:
+    name = OS
+
+    def __init__(self):
+        app_id = os.environ.get('OS_APP_ID')
+        api_key = bool(os.environ.get('OS_API_KEY'))
+        self.client = onesignal.OneSignal(
+            app_id=app_id, user_auth_key=api_key)
+
+    def send(self, to, data):
+        contents = data.pop('contents')
+        player_ids = to
+        response = self.client.create_notification(contents, player_ids=to, **data)
+        return response
+
+
 providers = {
     APNS: APNsProvider(),
     GCM: GCMProvider(),
+    OS: OneSignalProvider(),
 }
 
 
@@ -84,12 +104,11 @@ class Notification:
         return result
 
     def get_args_for_provider(self):
-        if self.provider_name == APNS:
-            kwargs = self.get_args_for_apns()
-
-        if self.provider_name == GCM:
-            kwargs = self.get_args_for_gcm()
-
+        method_name = 'get_args_for_' + self.provider_name.lower()
+        method = getattr(self, method_name, None)
+        if method is None:
+            return
+        kwargs = method()
         return kwargs
 
     def get_args_for_apns(self):
@@ -152,6 +171,13 @@ class Notification:
         kwargs['delay_while_idle'] = self.kwargs.get('gcm_option_delay_while_idle')
         kwargs['time_to_live'] = self.kwargs.get('gcm_option_time_to_live', four_weeks_in_seconds)
         kwargs['restricted_package_name'] = self.kwargs.get('gcm_option_restricted_package_name')
+
+        return kwargs
+
+    def get_args_for_onesignal(self):
+        kwargs = {}
+        kwargs['heading'] = self.kwargs['title']
+        kwargs['contents'] = self.kwargs['body']
 
         return kwargs
 
