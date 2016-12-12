@@ -5,7 +5,6 @@ import apns2
 import gcm
 import onesignal
 
-__version__ = "0.1.1"
 
 APNS = 'apns'
 GCM = 'gcm'

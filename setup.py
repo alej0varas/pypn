@@ -7,10 +7,10 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 
 setup(
     name="pypn",
-    version=__import__('pypn').__version__,
+    version=__import__('version', 'pypn').__version__,
     author="Alexandre Varas",
     author_email="alej0varas@gmail.com",
-    py_modules=['pypn', ],
+    py_modules=['pypn', 'version'],
     include_package_data=True,
     license='GNU Library or Lesser General Public License (LGPL)',
     description="Abstraction library to send push notifications through APNs and GCM",
