@@ -74,13 +74,12 @@ class OneSignalProvider:
 
     def __init__(self):
         app_id = os.environ.get('OS_APP_ID')
-        api_key = bool(os.environ.get('OS_API_KEY'))
+        api_key = os.environ.get('OS_API_KEY')
         self.client = onesignal.OneSignal(
             app_id=app_id, user_auth_key=api_key)
 
     def send(self, to, data):
         contents = data.pop('contents')
-        player_ids = to
         response = self.client.create_notification(contents, player_ids=to, **data)
         return response
 
