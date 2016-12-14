@@ -26,6 +26,11 @@ For GCM @geeknam/python-gcm `develop` branch is used.
    
    https://github.com/geeknam/python-gcm.git
 
+For OneSignal @gettalent/one-signal-python-sdk, `strip` branch is used.
+::
+
+   https://github.com/alej0varas/one-signal-python-sdk.git
+
 Usage
 =====
 
@@ -59,6 +64,18 @@ Possible values for `token` are:
   - `registration_id` or `topic` (just the name, without "/topic/")
 
 - A list of string, `registration_ids`
+
+OneSignal
+---------
+::
+
+   ones = pypn.Notification(pyvenv.OS)
+   ones.send(token, data)
+
+
+Possible values for `token` are:
+
+- A of OneSignal's `player_id`
 
 
 PyPN takes care of using the right method to send notifications for
@@ -133,6 +150,11 @@ For APNs the path to the .pem certificate and the pass-phrase if any:
 For GCM the server key:
 
 - GCM_SERVER_KEY
+
+For OneSignal the application id and the API key:
+
+- OS_APP_ID
+- OS_API_KEY
 
 Debug
 =====
