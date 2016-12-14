@@ -2,7 +2,7 @@
  PyPN
 ========
 
-Abstraction library to send push notifications through APNs and GCM.
+Abstraction library to send push notifications through APNs, GCM and OneSignal.
 
 .. caution::
    This library is in early development state.

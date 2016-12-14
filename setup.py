@@ -13,7 +13,7 @@ setup(
     py_modules=['pypn', 'version'],
     include_package_data=True,
     license='GNU Library or Lesser General Public License (LGPL)',
-    description="Abstraction library to send push notifications through APNs and GCM",
+    description="Abstraction library to send push notifications through APNs, GCM and OneSignal",
     long_description=README,
     url='https://github.com/alej0varas/pypn',
     classifiers=[
