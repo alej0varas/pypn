@@ -12,6 +12,7 @@ setup(
     author_email="alej0varas@gmail.com",
     py_modules=['pypn', 'version'],
     include_package_data=True,
+    install_requires=['yaosac==0.0.3', ],
     license='GNU Library or Lesser General Public License (LGPL)',
     description="Abstraction library to send push notifications through APNs, GCM and OneSignal",
     long_description=README,
