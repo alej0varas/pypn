@@ -3,7 +3,7 @@ import re
 
 import apns2
 import gcm
-import onesignal
+import yaosac
 
 
 APNS = 'apns'
@@ -72,15 +72,10 @@ class GCMProvider:
 class OneSignalProvider:
     name = OS
 
-    def __init__(self):
-        app_id = os.environ.get('OS_APP_ID')
-        api_key = os.environ.get('OS_API_KEY')
-        self.client = onesignal.OneSignal(
-            app_id=app_id, user_auth_key=api_key)
-
     def send(self, to, data):
         contents = data.pop('contents')
-        response = self.client.create_notification(contents, player_ids=to, **data)
+        data.update({'include_player_ids': to})
+        response = yaosac.client.create_notification(contents, **data)
         return response
 
 

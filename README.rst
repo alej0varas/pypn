@@ -26,10 +26,10 @@ For GCM @geeknam/python-gcm `develop` branch is used.
    
    https://github.com/geeknam/python-gcm.git
 
-For OneSignal @gettalent/one-signal-python-sdk, `strip` branch is used.
+For OneSignal `yaosac`.
 ::
 
-   https://github.com/alej0varas/one-signal-python-sdk.git
+   https://pypi.python.org/pypi/yaosac
 
 Usage
 =====
@@ -53,7 +53,7 @@ GCM
 ---
 ::
 
-   gcm= pypn.Notification(pyvenv.APNS)
+   gcm = pypn.Notification(pyvenv.APNS)
    gcm.send(token, data)
 
 
@@ -75,11 +75,11 @@ OneSignal
 
 Possible values for `token` are:
 
-- A of OneSignal's `player_id`
+- A list of OneSignal's `player_id`
 
-
-PyPN takes care of using the right method to send notifications for
-based on the token.
+You need an App Auth Key and App Id. They can be set as environment
+variables 'OS_APP_AUTH_KEY' and 'OS_APP_ID' or assigned to the client
+via `user_auth_key` and `app_id` attributes.
 
 Data
 ====
@@ -153,8 +153,8 @@ For GCM the server key:
 
 For OneSignal the application id and the API key:
 
+- OS_APP_AUTH_KEY
 - OS_APP_ID
-- OS_API_KEY
 
 Debug
 =====
@@ -165,6 +165,7 @@ also be set in the environment:
 
 - APNS_MODE: Possible values are "dev" and "prod"
 - GCM_DRY_RUN: Possible values are 0 and 1
+- There is no debug mode for OneSignal :(
 
 Also logging for the gcm library can be enabled setting `GCM_LOGGING`
 environment variable to 1.
@@ -202,7 +203,7 @@ Unit
 
 Integration
 ~~~~~~~~~~~
-This will send a notification to your devices
+This will send a notification to your devices.
 ::
 
    honcho run python tests_integration.py

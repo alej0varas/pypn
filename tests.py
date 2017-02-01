@@ -86,7 +86,7 @@ class GCMTests(unittest.TestCase):
         self.assertIn('notification', mock_request.call_args[1])
 
 
-@unittest.mock.patch('onesignal.OneSignal.create_notification')
+@unittest.mock.patch('yaosac.client.create_notification')
 class OneSignalTests(unittest.TestCase):
     def test_send(self, mock_request):
 
@@ -95,11 +95,14 @@ class OneSignalTests(unittest.TestCase):
         sin.send(the_id, payload)
 
         self.assertTrue(mock_request.called)
-        self.assertIn('player_ids', mock_request.call_args[1])
-        self.assertEqual(mock_request.call_args[1]['player_ids'], the_id)
+        self.assertIn('include_player_ids', mock_request.call_args[1])
+        self.assertEqual(mock_request.call_args[1]['include_player_ids'],
+                         the_id)
         self.assertEqual(payload['body'], mock_request.call_args[0][0])
         self.assertIn('heading', mock_request.call_args[1])
-        self.assertEqual(mock_request.call_args[1]['heading'], payload['title'])
+        self.assertEqual(mock_request.call_args[1]['heading'],
+                         payload['title'])
+        self.assertNotIn('contents', mock_request.call_args[1])
 
 
 if __name__ == '__main__':
