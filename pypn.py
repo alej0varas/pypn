@@ -1,14 +1,24 @@
 import os
 import re
 
-import apns2
-import gcm
-import yaosac
+try:
+    import apns2
+    APNS = 'apns'
+except ImportError:
+    APNS = None
+try:
+    import gcm
+    GCM = 'gcm'
+except ImportError:
+    GCM = None
+try:
+    import yaosac
+    OS = 'onesignal'
+except ImportError:
+    OS = None
 
 
-APNS = 'apns'
-GCM = 'gcm'
-OS = 'onesignal'
+
 
 four_weeks_in_seconds = 40320  # 60 * 60 * 24 * 7 * 4
 
@@ -77,13 +87,6 @@ class OneSignalProvider:
         data.update({'include_player_ids': to})
         response = yaosac.client.create_notification(contents, **data)
         return response
-
-
-providers = {
-    APNS: APNsProvider(),
-    GCM: GCMProvider(),
-    OS: OneSignalProvider(),
-}
 
 
 class Notification:
@@ -176,3 +179,12 @@ class Notification:
 
     def validate_provider(self, provider):
         return provider in providers and provider
+
+
+providers = {}
+if APNS is not None:
+    providers.update({APNS: APNsProvider()})
+if GCM is not None:
+    providers.update({GCM: GCMProvider()})
+if OS is not None:
+    providers.update({OS: OneSignalProvider()})

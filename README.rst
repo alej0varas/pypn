@@ -14,7 +14,8 @@ Requirements
 ============
 
 .. caution::
-   Requirements are not installed automatically by pip you can find them in `requirements.txt`
+   Requirements are not installed automatically by pip. The recomended
+   dependencies can be found in requirements.txt.
 
 For APNs an @oeegor/apns2-client fork is used, `pypn` branch
 ::
