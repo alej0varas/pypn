@@ -1,3 +1,3 @@
 -e git+git@github.com:alej0varas/apns2-client.git@pypn#egg=apns2_client
 -e git+https://github.com/geeknam/python-gcm.git@develop#egg=python_gcm
-yaosac==0.0.1
+yaosac==0.0.3
