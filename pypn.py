@@ -174,6 +174,8 @@ class Notification:
         kwargs = {}
         kwargs['heading'] = self.kwargs['title']
         kwargs['contents'] = self.kwargs['body']
+        if 'data' in self.kwargs:
+            kwargs['data'] = self.kwargs['data']
 
         return kwargs
 

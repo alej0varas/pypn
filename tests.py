@@ -103,6 +103,17 @@ class OneSignalTests(unittest.TestCase):
         self.assertEqual(mock_request.call_args[1]['heading'],
                          payload['title'])
         self.assertNotIn('contents', mock_request.call_args[1])
+        self.assertNotIn('data', mock_request.call_args[1])
+
+        # Support data
+        os_payload = payload.copy()
+        data = {'a': 'dict'}
+        os_payload['data'] = data
+
+        sin.send(the_id, os_payload)
+
+        self.assertIn('data', mock_request.call_args[1])
+        self.assertEqual(data, mock_request.call_args[1]['data'])
 
 
 if __name__ == '__main__':
