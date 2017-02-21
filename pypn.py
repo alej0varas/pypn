@@ -83,9 +83,14 @@ class OneSignalProvider:
     name = OS
 
     def send(self, to, data):
-        contents = data.pop('contents')
+        # `contents` and `template_id` can be used, if `contents` is
+        # present it has precedence and the `template_id` is not used
+        # by OneSignal.
+        contents = data.pop('contents', None)
+        template_id = data.pop('template_id', None)
         data.update({'include_player_ids': to})
-        response = yaosac.client.create_notification(contents, **data)
+        response = yaosac.client.create_notification(
+            contents=contents, template_id=template_id, **data)
         return response
 
 
@@ -172,8 +177,12 @@ class Notification:
 
     def get_args_for_onesignal(self):
         kwargs = {}
-        kwargs['heading'] = self.kwargs['title']
-        kwargs['contents'] = self.kwargs['body']
+        if 'os_template_id' in self.kwargs and self.kwargs['os_template_id'] is not None:
+            kwargs['template_id'] = self.kwargs['os_template_id']
+        if 'title' in self.kwargs:
+            kwargs['heading'] = self.kwargs['title']
+        if 'body' in self.kwargs:
+            kwargs['contents'] = self.kwargs['body']
         if 'data' in self.kwargs:
             kwargs['data'] = self.kwargs['data']
 

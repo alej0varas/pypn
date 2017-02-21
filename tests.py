@@ -98,11 +98,12 @@ class OneSignalTests(unittest.TestCase):
         self.assertIn('include_player_ids', mock_request.call_args[1])
         self.assertEqual(mock_request.call_args[1]['include_player_ids'],
                          the_id)
-        self.assertEqual(payload['body'], mock_request.call_args[0][0])
         self.assertIn('heading', mock_request.call_args[1])
         self.assertEqual(mock_request.call_args[1]['heading'],
                          payload['title'])
-        self.assertNotIn('contents', mock_request.call_args[1])
+        self.assertIn('contents', mock_request.call_args[1])
+        self.assertEqual(mock_request.call_args[1]['contents'],
+                         payload['body'])
         self.assertNotIn('data', mock_request.call_args[1])
 
         # Support data
