@@ -16,16 +16,13 @@ try:
     OS = 'onesignal'
 except ImportError:
     OS = None
-
-
+DUMMY = 'dummy'
 
 
 four_weeks_in_seconds = 40320  # 60 * 60 * 24 * 7 * 4
 
 
 class APNsProvider:
-    name = APNS
-
     def __init__(self):
         mode = os.environ.get('APNS_MODE', "dev")
         cert_file = os.environ.get('APNS_CERT_FILE')
@@ -59,7 +56,6 @@ class APNsProvider:
 
 
 class GCMProvider:
-    name = GCM
     topic_patern = re.compile('[a-zA-Z0-9-_.~%]+')
     dry_run = bool(int(os.environ.get('GCM_DRY_RUN', 1)))
 
@@ -80,8 +76,6 @@ class GCMProvider:
 
 
 class OneSignalProvider:
-    name = OS
-
     def send(self, to, data):
         # `contents` and `template_id` can be used, if `contents` is
         # present it has precedence and the `template_id` is not used
@@ -94,17 +88,26 @@ class OneSignalProvider:
         return response
 
 
+class DummyProvider:
+    def send(self, to, data):
+        return to, data
+
+
 class Notification:
     def __init__(self, provider):
         self.provider_name = self.validate_provider(provider)
         if not self.provider_name:
             raise AttributeError('%s is not a valid provider')
-        self.provider = providers[self.provider_name]
+        self.provider = providers[self.provider_name]()
 
     def send(self, to, kwargs=None):
+        # result = self.provider.send(to, **kwargs)
         self.kwargs = kwargs
         result = self.provider.send(to, self.get_args_for_provider())
         return result
+
+    def get_args_for_dummy(self):
+        return self.kwargs
 
     def get_args_for_provider(self):
         method_name = 'get_args_for_' + self.provider_name.lower()
@@ -194,10 +197,10 @@ class Notification:
         return provider in providers and provider
 
 
-providers = {}
+providers = {DUMMY: DummyProvider}
 if APNS is not None:
-    providers.update({APNS: APNsProvider()})
+    providers.update({APNS: APNsProvider})
 if GCM is not None:
-    providers.update({GCM: GCMProvider()})
+    providers.update({GCM: GCMProvider})
 if OS is not None:
-    providers.update({OS: OneSignalProvider()})
+    providers.update({OS: OneSignalProvider})

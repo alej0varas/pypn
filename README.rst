@@ -167,6 +167,7 @@ also be set in the environment:
 - APNS_MODE: Possible values are "dev" and "prod"
 - GCM_DRY_RUN: Possible values are 0 and 1
 - There is no debug mode for OneSignal :(
+- Dummy: There is a dummy provider that does nothin
 
 Also logging for the gcm library can be enabled setting `GCM_LOGGING`
 environment variable to 1.

@@ -117,6 +117,13 @@ class OneSignalTests(unittest.TestCase):
         self.assertEqual(data, mock_request.call_args[1]['data'])
 
 
+class DummyProviderTests(unittest.TestCase):
+    def test_send(self):
+        sin = pypn.Notification(pypn.DUMMY)
+
+        result = sin.send(ids, payload)
+
+        self.assertEqual(result, (ids, payload))
 
 
 class BadProviderTests(unittest.TestCase):
