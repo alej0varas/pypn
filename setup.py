@@ -7,7 +7,7 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 
 setup(
     name="pypn",
-    version="0.3.6",
+    version="0.4",
     author="Alexandre Varas",
     author_email="alej0varas@gmail.com",
     py_modules=['pypn', ],
@@ -26,5 +26,5 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     test_suite='tests',
-    keywords='push notification apns gcm',
+    keywords='push notification notifications apns gcm onesignal google apple',
 )
