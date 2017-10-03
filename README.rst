@@ -5,9 +5,6 @@
 Abstraction library to send push notifications through APNs, GCM and OneSignal.
 
 .. caution::
-   This library is in early development state.
-
-.. caution::
    This library only supports Python 3.5
 
 Requirements
@@ -37,9 +34,9 @@ Usage
 
 APNS
 ----
-::
+.. code-block:: python
 
-   apns = pypn.Notification(pyvenv.APNS)
+   apns = pypn.Notification(pypn.APNS)
    apns.send(token, data)
 
 Possible values for `token` are:
@@ -52,9 +49,9 @@ and send one request per user.
 
 GCM
 ---
-::
+.. code-block:: python
 
-   gcm = pypn.Notification(pyvenv.APNS)
+   gcm = pypn.Notification(pypn.APNS)
    gcm.send(token, data)
 
 
@@ -68,9 +65,9 @@ Possible values for `token` are:
 
 OneSignal
 ---------
-::
+.. code-block:: python
 
-   ones = pypn.Notification(pyvenv.OS)
+   ones = pypn.Notification(pypn.OS)
    ones.send(token, data)
 
 
@@ -81,6 +78,13 @@ Possible values for `token` are:
 You need an App Auth Key and App Id. They can be set as environment
 variables 'OS_APP_AUTH_KEY' and 'OS_APP_ID' or assigned to the client
 via `user_auth_key` and `app_id` attributes.
+
+Dummy
+-----
+.. code-block:: python
+
+   dummy = pypn.Notification(pypn.DUMMY)
+   dummy.send(token, data)
 
 Data
 ====
@@ -93,9 +97,9 @@ PyPN together with the provider "name".
 
 Example data
 ------------
-
 Not every field value is set.
-::
+
+.. code-block:: python
 
    data = {
       # Common fields
@@ -109,6 +113,7 @@ Not every field value is set.
       'apns_content_available': 1,
       'apns_category': '',
       'apns_mutable_content': True,
+
       # APNs alert
       'apns_alert_title_loc_key': '',
       'apns_alert_title_loc_args': '',
@@ -116,11 +121,13 @@ Not every field value is set.
       'apns_alert_loc_args': '',
       'apns_alert_action_loc_key': '',
       'apns_alert_launch_image': '',
+
       # APNs data
       'apns_custom': {'custom': 'values'},
-  
+
       # GCM data
       'gcm_data': {'custom': 'values'},
+
       # GCM notification 
       'gcm_notification_icon': '',
       'gcm_notification_tag': '',
@@ -130,6 +137,7 @@ Not every field value is set.
       'gcm_notification_body_loc_args': '',
       'gcm_notification_title_loc_key': '',
       'gcm_notification_title_loc_args': '',
+
       # GCM options
       'gcm_option_collapse_key': '',
       'gcm_option_content_available': '',
@@ -137,6 +145,7 @@ Not every field value is set.
       'gcm_option_time_to_live': 40320,
       'gcm_option_restricted_package_name': '',
    }
+
 
 Credentials
 ===========
@@ -180,32 +189,36 @@ Feel free to open a pull request or issue in GitHub.
 Testing
 -------
 Install requirements
-::
+
+.. code-block:: shell
 
    pip install -r requirements.txt
 
 Copy and update the environment file
-::
+
+.. code-block:: shell
 
    cp .env-template .env
 
 **DON'T FORGET TO EDIT .env :)**
 
 Install honcho
-::
+
+.. code-block:: shell
 
    pip install honcho
 
 
 Unit
 ~~~~
-::
+.. code-block:: shell
 
    honcho run python tests.py
 
 Integration
 ~~~~~~~~~~~
 This will send a notification to your devices.
-::
+
+.. code-block:: shell
 
    honcho run python tests_integration.py
