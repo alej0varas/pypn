@@ -97,6 +97,8 @@ class OneSignalProvider:
 class Notification:
     def __init__(self, provider):
         self.provider_name = self.validate_provider(provider)
+        if not self.provider_name:
+            raise AttributeError('%s is not a valid provider')
         self.provider = providers[self.provider_name]
 
     def send(self, to, kwargs=None):

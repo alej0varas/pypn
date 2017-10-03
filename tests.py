@@ -117,5 +117,12 @@ class OneSignalTests(unittest.TestCase):
         self.assertEqual(data, mock_request.call_args[1]['data'])
 
 
+
+
+class BadProviderTests(unittest.TestCase):
+    def test_bad_provider(self):
+        self.assertRaises(AttributeError, pypn.Notification, 'bad-provider')
+
+
 if __name__ == '__main__':
     unittest.main()
